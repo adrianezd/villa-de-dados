@@ -1,0 +1,26 @@
+{
+  "name": "Villa de dados",
+  "short_name": "Villa de dados",
+  "description": "Tira tres dados, elige qué construyes y dónde, y llena tu pueblo.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef3e2",
+  "theme_color": "#eef3e2",
+  "lang": "es",
+  "categories": [
+    "games"
+  ],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

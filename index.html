@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Villa de dados — juego de dados para un jugador, con reto diario</title>
+<meta name="description" content="Juego de mesa de un jugador gratis: tira tres dados, elige qué edificio construyes y dónde, y llena un pueblo de 6×6. Casas, campos, fuentes, talleres, mercados e iglesias puntúan según lo que tengan al lado. Reto del día y partida libre.">
+<meta name="keywords" content="juego de dados un jugador, roll and write, juego de mesa solitario, juego de dados online, reto diario, juego de construir pueblo">
+<link rel="canonical" href="https://adrianezd.github.io/villa-de-dados/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="icon-512.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#eef3e2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121a10" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Villa de dados — tira y construye">
+<meta property="og:description" content="Tres dados por turno: uno dice qué construyes y otro dónde. Llena el pueblo y suma puntos. Reto del día gratis.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://adrianezd.github.io/villa-de-dados/">
+<meta property="og:image" content="https://adrianezd.github.io/villa-de-dados/og-image.png">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=1">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":["WebApplication","Game"],"name":"Villa de dados","url":"https://adrianezd.github.io/villa-de-dados/","description":"Juego de dados para un jugador: tira, elige edificio y lugar, y llena un pueblo de 6×6.","inLanguage":"es","applicationCategory":"GameApplication","operatingSystem":"Any","isAccessibleForFree":true,"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Cómo se juega a Villa de dados?","acceptedAnswer":{"@type":"Answer","text":"Cada turno tiras tres dados. Uno elige el edificio según su número y otro la fila o columna donde lo construyes. Cuando el tablero se llena, cada edificio puntúa según sus vecinos."}},{"@type":"Question","name":"¿Qué es el reto del día?","acceptedAnswer":{"@type":"Answer","text":"Una partida con los mismos dados para todo el mundo. Se juega una vez al día y puedes compartir tu pueblo."}}]}]}
+</script>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true">🎲</span><div><h1>Villa de dados</h1><p id="mode">Reto del día</p></div></div>
+  <label class="snd"><input type="checkbox" id="sound"> Sonido</label>
+</header>
+
+<main>
+  <nav class="modes" aria-label="Modo">
+    <button type="button" data-mode="daily">📅 Reto del día</button>
+    <button type="button" data-mode="free">🎲 Partida libre</button>
+  </nav>
+
+  <section class="stats" aria-label="Partida">
+    <div><span>Casillas</span><strong id="turn">0/36</strong></div>
+    <div><span>Puntos</span><strong id="score">0</strong></div>
+    <div><span>Récord</span><strong id="best">—</strong></div>
+  </section>
+
+  <div class="play">
+    <div class="board-wrap">
+      <div class="col-nums" id="col-nums" aria-hidden="true"></div>
+      <div class="row-nums" id="row-nums" aria-hidden="true"></div>
+      <div class="grid" id="grid"></div>
+    </div>
+    <div class="side">
+      <p class="step" id="step">1. Elige el dado del edificio</p>
+      <div class="dice" id="dice"></div>
+      <label class="pts"><input type="checkbox" id="pts"> Ver puntos en el tablero</label>
+    </div>
+  </div>
+
+  <section class="info">
+    <h2>Edificios</h2>
+    <p class="hint">El número del dado elige el edificio. «Toca» quiere decir casilla de al lado: arriba, abajo, izquierda o derecha.</p>
+    <ul class="legend" id="legend"></ul>
+    <h2>Cómo se juega</h2>
+    <ol>
+      <li>Cada turno salen tres dados. Elige uno para el <strong>edificio</strong>: su número dice cuál.</li>
+      <li>Elige otro para el <strong>lugar</strong>: puedes construir en cualquier casilla libre de esa fila o de esa columna.</li>
+      <li>El tercer dado se descarta. Si ninguna combinación cabe, pones una ruina donde quieras.</li>
+      <li>Cuando las 36 casillas están llenas, se cuentan los puntos de cada edificio.</li>
+    </ol>
+  </section>
+
+  <div class="end" id="end" hidden>
+    <div class="end-card" role="dialog" aria-labelledby="end-title">
+      <span class="end-emoji" id="end-emoji">🏘️</span>
+      <h2 id="end-title">0 puntos</h2>
+      <p id="end-rank"></p>
+      <ul class="end-table" id="end-table"></ul>
+      <div class="end-actions">
+        <button type="button" class="btn btn-main" id="share">Compartir</button>
+        <button type="button" class="btn btn-main" id="again">Partida libre</button>
+        <button type="button" class="btn" id="close">Ver el pueblo</button>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+</main>
+
+<footer class="foot">
+  <p>Juego original. Más juegos gratis en <a href="https://adrianezd.github.io/portal/">el portal</a>.</p>
+</footer>
+<script src="script.js?v=1"></script>
+</body>
+</html>
